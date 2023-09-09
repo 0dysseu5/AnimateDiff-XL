@@ -40,7 +40,9 @@ class WebVid10M(Dataset):
         video_dict = self.dataset[idx]
         videoid, name, page_dir = video_dict['videoid'], video_dict['name'], video_dict['page_dir']
         
-        video_dir    = os.path.join(self.video_folder, f"{videoid}.mp4")
+        video_dir    = os.path.join(self.video_folder,page_dir, f"{videoid}.mp4")
+        if not os.path.exists(video_dir):
+            return None
         video_reader = VideoReader(video_dir)
         video_length = len(video_reader)
         
