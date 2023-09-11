@@ -13,11 +13,11 @@ class StableDataModuleFromConfig(LightningDataModule):
     def __init__(
         self,
         train: DictConfig,
-        batch_size=4,
+        batch_size=1,
         num_workers=12,
         sample_size=256,
-        sample_stride=4,
-        sample_n_frames=16,
+        sample_stride=1,
+        sample_n_frames=1,
     ):
         super().__init__()
         self.train_config = train

@@ -27,6 +27,7 @@ class WebVid10M(Dataset):
         self.sample_stride   = sample_stride
         self.sample_n_frames = sample_n_frames
         self.is_image        = is_image
+        self.sample_size = sample_size
         
         sample_size = tuple(sample_size) if not isinstance(sample_size, int) else (sample_size, sample_size)
         self.pixel_transforms = transforms.Compose([
@@ -40,7 +41,7 @@ class WebVid10M(Dataset):
         video_dict = self.dataset[idx]
         videoid, name, page_dir = video_dict['videoid'], video_dict['name'], video_dict['page_dir']
         
-        video_dir    = os.path.join(self.video_folder,page_dir, f"{videoid}.mp4")
+        video_dir    = os.path.join(self.video_folder, f"{videoid}.mp4")
         if not os.path.exists(video_dir):
             return None
         video_reader = VideoReader(video_dir)
@@ -75,7 +76,9 @@ class WebVid10M(Dataset):
                 idx = random.randint(0, self.length-1)
 
         pixel_values = self.pixel_transforms(pixel_values)
-        sample = dict(pixel_values=pixel_values, text=name)
+        org_size = np.array([self.sample_size,self.sample_size])
+        top_crop = np.array([0,0])
+        sample = dict(pixel_values=pixel_values, text=name, original_size_as_tuple=torch.from_numpy(org_size), crop_coords_top_left=torch.from_numpy(top_crop))
         return sample
 
 
