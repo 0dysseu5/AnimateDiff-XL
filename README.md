@@ -50,10 +50,19 @@ data:
         num_workers: 6
 ```
 
+build diffusers package
+
+```
+pip3 install hatch
+hatch build -t wheel
+pip3 install --force-reinstall dist/sgm-0.1.0-py3-none-any.whl
+
+```
+
 ### Training
 To train motion modules
 ```
-python train_xl.py --base onfigs/training/training.yaml
+python main.py --base configs/training/sgm_configs/imagenet.yaml
 ```
 
 
